@@ -1,16 +1,17 @@
-#ifndef _OPTIMIZED_ALIGNMENT_H_
-#define _OPTIMIZED_ALIGNMENT_H_
+#ifndef _OPT_ALIGN_H_
+#define _OPT_ALIGN_H_
 
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
 #include<time.h>
 
-#define SIZE 25
+#define SIZE 3
 
 static int move_set[4][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}};
 
-int** alignment(int** matrix);
+
+void alignment(int** matrix, FILE* f);
 bool indexErr(int i, int j, int* move);
 
 #endif 
