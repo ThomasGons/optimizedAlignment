@@ -3,66 +3,64 @@
 int main()
 {
     srand(time(NULL));
-    int** matrix = malloc(SIZE * sizeof(int*));
+    int i, j, **matrix = malloc(SIZE * sizeof(int*));
     FILE* f = fopen("optAlign.csv", "w+");
-    for (int i = 0; i < SIZE; i++)
+    for (i = 0; i < SIZE; i++)
     {
         matrix[i] = malloc(SIZE * sizeof(int));
-        for (int j = 0; j < SIZE; j++)
+        for (j = 0; j < SIZE; j++)
         {
-            matrix[i][j] = rand() % 2;
+            matrix[i][j] = rand() % SYMBOLS;
             fprintf(f, "%d, ", matrix[i][j]);
-            printf("%d ", matrix[i][j]);
+            //printf("%d ", matrix[i][j]);             uncomment to see the matrix in the shell
         }
-        fprintf(f, "\n");
-        printf("\n");
+        fprintf(f, "\n\n");
+        //printf("\n");                                uncomment to see the matrix in the shell 
     }
     alignment(matrix, f);
-    for (int i = 0; i < SIZE; i++)
+    for (i = 0; i < SIZE; i++)
     {
         free(matrix[i]);
     }
     free(matrix);
+    return EXIT_SUCCESS;
 }
 
 void alignment(int** matrix, FILE* f)
 {
-    int allAlignment[SIZE][3]; // contains all the alignments of each symbol according to their length
-    for (int i = 0; i < SIZE; i++)
+    int allAlignment[SIZE][SYMBOLS], i, j; // contains all the alignments of each symbol according to their length
+    for (i = 0; i < SIZE; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (j = 0; j < SYMBOLS; j++)
         {
             allAlignment[i][j] = (j == 0)? i: 0;
         }
     }
-    for (int i = 0; i < SIZE; i++)
+    for (i = 0; i < SIZE; i++)
     {
-        for (int j = 0; j < SIZE; j++)
+        for (j = 0; j < SIZE; j++)
         {
             for (int k = 0; k < 4; k++)
             {
                 int length = 0, store[2] = {i, j};
-                while(indexErr(i, j, move_set[k]) == true && matrix[i][j] == matrix[i + move_set[k][0]][j + move_set[k][1]])
+                while(indexErr(i, j, move_set[k]) == 0 && matrix[i][j] == matrix[i + move_set[k][0]][j + move_set[k][1]])
                 {
                     i += move_set[k][0];
                     j += move_set[k][1];
                     length++;
                 }
                 if (length > 0)
-                {
                     allAlignment[length][matrix[store[0]][store[1]] + 1] += 1;
-                }
                 i = store[0], j = store[1];
             }
         }
     }
-    
-    fprintf(f, "\n\nAlignment, 0, 1\n\n");
-    for (int i = 1; i < SIZE; i++)
+    for (i = 1; i < SIZE; i++)
     {
-        for (int j = 0; j < 3; j++)
+        if (allZeros(allAlignment[i], (size_t) SYMBOLS))
+            break;
+        for (j = 0; j < SYMBOLS; j++)
         {
-            
             (j == 0)? fprintf(f, "%d,  ", allAlignment[i][j] + 1) : fprintf(f, "%d, ", allAlignment[i][j]);
         }
         fputs("\n", f);
@@ -70,11 +68,15 @@ void alignment(int** matrix, FILE* f)
     fclose(f);
 } 
 
-bool indexErr(int i, int j, int* move)
+int indexErr(int i, int j, int* move)
 {
-    if (0 > i + move[0] || i + move[0] > SIZE - 1 || 0 > j + move[1] || j + move[1] > SIZE - 1)
-    {
-        return false;
-    }
-    return true;
+    return (0 > i + move[0] || i + move[0] > SIZE - 1 || 0 > j + move[1] || j + move[1] > SIZE - 1)? 1: 0;
+}
+
+int allZeros(const int *t, size_t size)
+{
+    while (size--)
+        if (t[size])
+            return 0;
+    return 1;
 }

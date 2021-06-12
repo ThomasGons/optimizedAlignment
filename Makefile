@@ -6,7 +6,7 @@ EXE = optAlign
 
 all: $(EXE)
 
-%.c:%.o
+%.c:%.o 
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(EXE): $(OBJ)
