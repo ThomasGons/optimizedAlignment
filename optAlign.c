@@ -10,11 +10,11 @@ int main()
         matrix[i] = malloc(SIZE * sizeof(int));
         for (int j = 0; j < SIZE; j++)
         {
-            matrix[i][j] = rand() % 2;
+            matrix[i][j] = rand() % (SYMBOLS - 1);
             fprintf(f, "%d, ", matrix[i][j]);
             printf("%d ", matrix[i][j]);
         }
-        fprintf(f, "\n");
+        fprintf(f, "\n\n");
         printf("\n");
     }
     alignment(matrix, f);
@@ -27,17 +27,17 @@ int main()
 
 void alignment(int** matrix, FILE* f)
 {
-    int allAlignment[SIZE][3]; // contains all the alignments of each symbol according to their length
-    for (int i = 0; i < SIZE; i++)
+    int i, j, allAlignment[SIZE][SYMBOLS]; // contains all the alignments of each symbol according to their length
+    for (i = 0; i < SIZE; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (j = 0; j < SYMBOLS; j++)
         {
             allAlignment[i][j] = (j == 0)? i: 0;
         }
     }
-    for (int i = 0; i < SIZE; i++)
+    for (i = 0; i < SIZE; i++)
     {
-        for (int j = 0; j < SIZE; j++)
+        for (j = 0; j < SIZE; j++)
         {
             for (int k = 0; k < 4; k++)
             {
@@ -48,22 +48,22 @@ void alignment(int** matrix, FILE* f)
                     j += move_set[k][1];
                     length++;
                 }
-                if (length > 0)
-                {
-                    allAlignment[length][matrix[store[0]][store[1]] + 1] += 1;
-                }
+                allAlignment[length][matrix[store[0]][store[1]] + 1] += 1;
                 i = store[0], j = store[1];
             }
         }
     }
     
-    fprintf(f, "\n\nAlignment, 0, 1\n\n");
-    for (int i = 1; i < SIZE; i++)
+    for (i = 0; i < SYMBOLS; i++)
     {
-        for (int j = 0; j < 3; j++)
+        i? fprintf(f, "%d, ", i): fprintf(f, "Alignment, ");
+    }
+    fprintf(f, "\n");
+    for (i = 1; i < SIZE; i++)
+    {
+        for (j = 0; j < SYMBOLS; j++)
         {
-            
-            (j == 0)? fprintf(f, "%d,  ", allAlignment[i][j] + 1) : fprintf(f, "%d, ", allAlignment[i][j]);
+            j? fprintf(f, "%d, ", allAlignment[i][j]): fprintf(f, "%d,  ", allAlignment[i][j] + 1);
         }
         fputs("\n", f);
     }

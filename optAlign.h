@@ -7,6 +7,7 @@
 #include<time.h>
 
 #define SIZE 3
+#define SYMBOLS 3 // add one for the first column of allAlignment
 
 static int move_set[4][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}};
 
