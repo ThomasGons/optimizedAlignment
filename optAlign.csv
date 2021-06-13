@@ -5,9 +5,6 @@ An example of execution for three by three matrix
 0, 0, 1, 
 1, 0, 0, 
 
-
-The first column represents the number of symbols aligned and the two other columns
-represent respectively the number of alignments for the symbols(here zero and one):
-
+Alignment, 1, 2, 
 2,  5, 3, 
 3,  0, 1, 
