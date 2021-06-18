@@ -1,12 +1,13 @@
 CC = gcc
 CFLAGS = -g -O2 -Wall -Wextra -pedantic
 SRC = $(wildcard *.c)
+INC = $(wildcard *.h)
 OBJ = $(SRC:.c=.o)
 EXE = optAlign
 
 all: $(EXE)
 
-%.c:%.o 
+$(OBJ): $(SRC) $(INC) 
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(EXE): $(OBJ)
