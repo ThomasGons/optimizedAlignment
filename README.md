@@ -14,8 +14,7 @@ For example, the next three by three square matrix gives:
         3  0  1     Alignment of three symbols: 0 for zeros and 1 for ones
 
 
-(NB) Only the longest alignments are considered: 
-    
+(NB) Only the longest alignments are considered:  
     0 0 0
 
         In this line there are one alignment of three zeros and two alignments of two but
