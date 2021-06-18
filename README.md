@@ -5,17 +5,21 @@ Those alignments are retrieved as follows:
     - columns represent the number of alignments for a symbol
 
 For example, the next three by three square matrix gives:
+
     (matrix)
+
         1  1  1 
         0  0  1 
         1  0  0
+
     (alignment)
+
         2  5  3     Alignment of two symbols: 5 for zeros and 3 for ones 
         3  0  1     Alignment of three symbols: 0 for zeros and 1 for ones
 
 
 (NB) Only the longest alignments are considered:
-  
+
     0 0 0
 
         In this line there are one alignment of three zeros and two alignments of two but
