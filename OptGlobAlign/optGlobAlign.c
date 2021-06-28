@@ -1,4 +1,4 @@
-#include"optAlign.h"
+#include"optGlobAlign.h"
 
 int main()
 {
@@ -15,43 +15,45 @@ int main()
         }
         fprintf(f, "\n\n");                         // with the line breaks
     }
-    alignment(matrix, f);
+    clock_t start = clock();
+    globalAlign(matrix, f);
     for (i = 0; i < SIZE; i++)
     {
         free(matrix[i]);
     }
     free(matrix);
+    printf("execution time: %0.3lf s ", (float) (clock() - start) / CLOCKS_PER_SEC);
     return EXIT_SUCCESS;
 }
 
-void alignment(int** matrix, FILE* f)
+void globalAlign(int** matrix, FILE* f)
 {
-    int i, j, allAlignment[SIZE][SYMBOLS]; // contains all the alignments of each symbol according to their length
+    int i, j, allAlignment[SIZE][SYMBOLS]; // contains all the globalAligns of each symbol according to their length
     for (i = 0; i < SIZE; i++)
     {
         for (j = 0; j < SYMBOLS; j++)
         {
-           // the first column represents the length of the alignment thus it is not initalized to zero
-            allAlignment[i][j] = (j == 0)? i: 0;  
+           // the first column represents the length of the globalAlign thus it is not initalized to zero
+            allAlignment[i][j] = (j == 0)? i: 0;
         }
     }
     for (i = 0; i < SIZE; i++)
     {
         for (j = 0; j < SIZE; j++)
         {
-            // there are four directions for an alignment in each cell
+            // there are four directions for an globalAlign in each cell
             for (int k = 0; k < 4; k++)
             {
                 int length = 0, store[2] = {i, j};  // store allows us to store i and j values
                 /* as long as we do not leave the matrix and the next cell's value is equal,
-                we continue to increase the length of the alignment in the given direction */
+                we continue to increase the length of the globalAlign in the given direction */
                 while(indexErr(i, j, move_set[k]) == 0 && matrix[i][j] == matrix[i + move_set[k][0]][j + move_set[k][1]])
                 {
                     i += move_set[k][0];
                     j += move_set[k][1];
                     length++;
                 }
-                // we increase the alignment's number for the given symbol and the correct length of the alignment
+                // we increase the globalAlign's number for the given symbol and the correct length of the globalAlign
                 allAlignment[length][matrix[store[0]][store[1]] + 1] += 1;  
                 i = store[0], j = store[1];
             }
@@ -65,12 +67,12 @@ void alignment(int** matrix, FILE* f)
     fprintf(f, "\n");
     for (i = 1; i < SIZE; i++)
     {
-        // we do not display the useless lines which contains no alignments
+        // we do not display the useless lines which contains no globalAligns
         if (allZeros(allAlignment[i], SYMBOLS - 1))
             break;
         for (j = 0; j < SYMBOLS; j++)
         {
-            /* display the number of alignments according to the symbol and the length of the alignment
+            /* display the number of globalAligns according to the symbol and the length of the globalAlign
             respectively define in the first line and column */
             j? fprintf(f, "%d, ", allAlignment[i][j]): fprintf(f, "%d,  ", allAlignment[i][j] + 1);
         }
