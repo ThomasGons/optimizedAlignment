@@ -1,6 +1,6 @@
 INC = $(wildcard *.h)
 SRC = $(wildcard *.c)
-OBJ = optAlign
+OBJ = optAlign.o
 CC = gcc
 CFLAGS = -g -O2 -Wall -Wextra -pedantic
 
